@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://unpkg.com/@stylex/colors@v1.1/colors.css" />
+  <title>Duotone Reader</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      line-height: 1.3em;
+    }
+
+    code, samp {
+      font-size: 14px;
+      background-color: var(--silver-5);
+      color: var(--silver-70);
+      border-radius: 4px;
+      padding: .2em .4em;
+    }
+
+    pre > code {
+      display: block;
+      padding: 0.5em;
+      border-radius: 0;
+      overflow-x: auto;
+    }
+
+    h1, h2 {
+      font-weight: 500;
+      color: var(--gray-80);
+      line-height: 1.5em;
+    }
+
+    button {
+      font-size: 100%;
+      border-radius: 4px;
+      box-shadow: 0 2px 3px 0 rgba(0,0,0,0.2);
+      border: 1px solid var(--silver-15);
+      background-color: white;
+    }
+
+    button:focus {
+      background-color: var(--silver-5);
+      border-color: var(--silver-20);
+    }
+
+    button:active {
+      box-shadow: 0 1px 2.5px 0 rgba(0,0,0,0.1);
+    }
+
+    footer, main {
+      padding: 1em 0;
+    }
+
+    a {
+      color: var(--blue-60);
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: var(--blue-50);
+      text-decoration: underline;
+      text-decoration-color: var(--blue-60);
+    }
+
+    .icon {
+      vertical-align: bottom;
+    }
+
+    .container {
+      width: 940px;
+      padding: 0 20px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 979px) {
+      .container {
+        max-width: 100%;
+        margin: 0;
+      }
+    }
+
+    .Page-Head {
+      margin: 2em 0;
+    }
+
+    .Page-Head {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 1em;
+      align-items: center;
+    }
+
+    .Page-HeadLink {
+      text-align: right;
+    }
+
+    @media (max-width: 880px) {
+      .Page-Head {
+        display: block;
+      }
+
+      .Page-HeadLink {
+        text-align: initial;
+      }
+    }
+
+    .Page-Body {
+      margin-bottom: 2em;
+      line-height: 1.5em;
+    }
+
+    .Page-BodyIntro {
+      font-size: 120%;
+      line-height: 1.5em;
+      margin: 2em 0;
+    }
+
+    .Page-Body h1,
+    .Page-Body h2 {
+      margin-top: 2em;
+      border-bottom: 1px solid var(--gray-10);
+    }
+
+    .Examples {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: 1em;
+    }
+
+    @media (max-width: 880px) {
+      .Examples {
+        display: block;
+      }
+    }
+
+    .Example-hl {
+      color: var(--green-65);
+    }
+
+    .Alert.--warn {
+      background-color: var(--yellow-5);
+      color: var(--yellow-70);
+      border: 1px solid var(--yellow-20);
+      padding: 0em 0.5em;
+      border-radius: 4px;
+    }
+
+    /* .Example-btn {} */
+  </style>
+  <style id="if-speech-api">
+    .if-speech-api {
+      display: none;
+    }
+  </style>
+  <style id="if-not-speech-api">
+    .if-not-speech-api {
+      display: none;
+    }
+  </style>
+  <script>
+    function removeById(id) {
+      const styleNode = document.getElementById('if-speech-api')
+
+      styleNode.parentElement.removeChild(styleNode)
+    }
+
+    if ('speechSynthesis' in window) {
+      removeById('if-speech-api')
+    }
+    else {
+      removeById('if-not-speech-api')
+    }
+  </script>
+</head>
+<body>
+  <header></header>
+  <main>
+    <div class="container">
+      <div class="Page">
+        <div class="Page-Head">
+          <h1>
+            Duotone Reader
+          </h1>
+          <p class="Page-HeadLink">
+            <svg class="icon" height="18" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="github" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z" class=""></path></svg>
+            <a href="https://github.com/rumkin/duotone-reader">rumkin/duotone-reader</a>
+          </p>
+        </div>
+        <div class="Page-Body">
+          <p class="Page-BodyIntro">
+            This is a concept and demonstration of the duotone screen reading technology.
+            It requires more reasearch and isn't ready for production use yet.
+            Hope that early stage publicashion will help to improve it to became part of
+            the Web Stadrards.
+          </p>
+          <p>
+            If you don't know screen readers read web documents element by element naming meaningful types and attributes before
+            the element's content. For example html <code>&lt;h1&gt;Hello&lt;/h1&gt;</code> will be read as <code>Header Hello</code> and
+            checkbox input <code>&lt;input type="checkbox" checked /&gt; Agree</code> as <code>Checkbox, checked. Agree</code>.
+            Also sometimes they wrap content with constructions like <code>element-name</code> and <code>end element-name</code>. For example
+            link with such HTML code <code>&lt;a href="http://github.com"&gt;This is a link&lt;/a&gt;</code> will be read
+            as <code>Link. This is a link. End link</code>.
+          </p>
+          <p>
+            And screen readers are using the same voice for everything. According to previous examples there
+            is nothing difficult. But image big modern web page with a dozen of elements and text blocks.
+            There will be a lot of meta information which should be pronounced. Here it is more complete
+            block of HTML:
+          </p>
+          <pre><code>&lt;h1&gt;Hello&lt;/h1&gt;
+&lt;p&gt;This is a textblock. &lt;a href="http://github.com"&gt;This is a link&lt;/a&gt;&lt;/p&gt;
+&lt;label&gt;
+  &lt;input type="checkbox" checked /&gt; Ok
+&lt;/label&gt;</code></pre>
+            <p>
+              Screen reader would read it as <samp>Header Hello [pause] This is a textblock [pause] link This is a link end link [pause] checkbox, checked Ok</samp>.
+              Separation between content and metadata is made by pause. And it could be improved if screan readers will separate metadata and a content and read it with different voices.
+            </p>
+            <div class="Alert --warn">
+              <h3>
+                ⚠️ Note
+              </h3>
+              <p>
+                This code was tested and works in Chrome and Mozilla on MacOS. It doesn't work in
+                Safari yet. If you meet issues on another platforms, please, file an issue in
+                <a href="https://github.com/rumkin/duotone-reader">the repository</a>.
+              </p>
+            </div>
+            <div class="if-speech-api">
+              <h2>Example settings</h2>
+              <div>
+                <label>
+                  Content voice:
+                  <div><select id="primaryVoice" class="Example-select"></select></div>
+                </label>
+              </div>
+              <div>
+                <label>
+                  Metadata voice:
+                  <div><select id="secondaryVoice" class="Example-select"></select></div>
+                </label>
+              </div>
+            </div>
+
+            <div class="Examples">
+              <div class="Example">
+                <h2>
+                  Regular reader
+                </h2>
+                <p>
+                  Example with single voice:
+                </p>
+                <pre><code>Header Hello
+This is a textblock. Link This is a link End link
+Checkbox, checked Ok</code></pre>
+                <button class="Example-btn if-speech-api" onclick="playMonotone()">
+                  Listen
+                </button>
+              </div>
+              <div class="Example">
+                <h2>
+                  Duotone reader
+                </h2>
+                <p>
+                  Example with two voices:
+                </p>
+                <pre title="Example text with selected elements"><code><span class="Example-hl" title="Selected text">Header</span> Hello
+This is a textblock. <span class="Example-hl" title="Selected text">Link</span> This is a link <span class="Example-hl" title="Selected text">End link</span>
+<span class="Example-hl" title="Selected text">Checkbox, checked</span> Ok</code></pre>
+                <button class="Example-btn if-speech-api" onclick="playDuotone()">
+                  Listen
+                </button>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      let busy = false
+      let voices
+      let primary
+      let secondary
+
+      async function play(lines) {
+        if (busy) {
+          return
+        }
+
+        try {
+          await playScenario(lines)
+        }
+        finally {
+          busy = false
+        }
+      }
+
+      function setVoices(select, voices) {
+        for (const voice of voices) {
+          const option = document.createElement('option')
+          option.setAttribute('value', voice.voiceURI)
+          option.textContent = voice.name
+          select.appendChild(option)
+        }
+      }
+
+      if ('speechSynthesis' in window) {
+        const primeVoiceSel = document.querySelector('#primaryVoice')
+        const secVoiceSel = document.querySelector('#secondaryVoice')
+
+        function loadVoices () {
+          if (voices && voices.length) {
+            return
+          }
+
+          voices = speechSynthesis.getVoices().filter(({lang}) => lang === 'en-US')
+
+          if (voices.length < 2) {
+            return
+          }
+
+          primary = voices[0]
+          secondary = voices[1]
+
+          setVoices(primeVoiceSel, voices)
+          primeVoiceSel.value = primary.voiceURI
+
+          setVoices(secVoiceSel, voices)
+          secVoiceSel.value = secondary.voiceURI
+        }
+
+        speechSynthesis.addEventListener('voiceschanged', loadVoices)
+        loadVoices()
+
+        secVoiceSel.addEventListener('change', (e) => {
+          secondary = voices.find((voice) => voice.voiceURI === e.target.value)
+        })
+
+        primeVoiceSel.addEventListener('change', (e) => {
+          primary = voices.find((voice) => voice.voiceURI === e.target.value)
+        })
+      }
+
+      async function playScenario(lines) {
+        for (const line of lines) {
+          if (line.delay) {
+            await delay(line.delay)
+          }
+
+          await playLine(line)
+        }
+      }
+
+      function delay(timeout) {
+        return new Promise((resolve) => setTimeout(resolve, timeout))
+      }
+
+      function playLine(line, lines) {
+        return new Promise((resolve) => {
+          const utterance = new SpeechSynthesisUtterance(line.text)
+
+          if (line.voice) {
+            utterance.voice = line.voice
+          }
+
+          utterance.onend = () => {
+            resolve()
+          }
+
+          speechSynthesis.speak(utterance, delay)
+        })
+      }
+
+      function playMonotone() {
+        play([
+          {text: 'Header: Hello', voice: primary},
+          {text: 'This is a textblock! Link. This is a link. End link', delay: 300, voice: primary},
+          {text: 'Checkbox, checked, ok', delay: 300, voice: primary},
+        ])
+      }
+
+      function playDuotone() {
+        play([
+          {text: 'Header', voice: secondary},
+          {text: 'Hello', delay: 100, voice: primary},
+          {text: 'This is a textblock!', delay: 300, voice: primary},
+          {text: 'Link', delay: 100, voice: secondary},
+          {text: 'This is a link', delay: 100, voice: primary},
+          {text: 'End Link', delay: 300, voice: secondary},
+          {text: 'Checkbox, checked', delay: 100, voice: secondary},
+          {text: 'ok', voice: primary},
+        ])
+      }
+    </script>
+  </main>
+  <footer>
+    <div class="container">
+      2019 © <a href="https://rumk.in">Rumkin</a>.
+    </div>
+  </footer>
+</body>
+</html>
