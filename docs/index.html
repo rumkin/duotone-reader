@@ -41,9 +41,8 @@
       overflow-x: auto;
     }
 
-    h1, h2 {
+    h1, h2, h3, h4, h5, h6 {
       font-weight: 500;
-      color: var(--gray-80);
       line-height: 1.5em;
     }
 
@@ -121,21 +120,21 @@
       }
     }
 
-    .Page-Body {
+    .PageBody {
       margin-bottom: 2em;
       line-height: 1.5em;
     }
 
-    .Page-BodyIntro {
+    .PageBody-Intro {
       font-size: 120%;
       line-height: 1.5em;
       margin: 2em 0;
     }
 
-    .Page-Body h1,
-    .Page-Body h2 {
+    .PageBody-Header {
       margin-top: 2em;
       border-bottom: 1px solid var(--gray-10);
+      color: var(--gray-80);
     }
 
     .Examples {
@@ -162,6 +161,10 @@
       border-radius: 4px;
     }
 
+    .Alert-Header {
+      font-size: 1em;
+    }
+
     /* .Example-btn {} */
   </style>
   <style id="if-speech-api">
@@ -169,8 +172,8 @@
       display: none;
     }
   </style>
-  <style id="if-not-speech-api">
-    .if-not-speech-api {
+  <style id="if-no-speech-api">
+    .if-no-speech-api {
       display: none;
     }
   </style>
@@ -185,7 +188,7 @@
       removeById('if-speech-api')
     }
     else {
-      removeById('if-not-speech-api')
+      removeById('if-no-speech-api')
     }
   </script>
 </head>
@@ -203,12 +206,11 @@
             <a href="https://github.com/rumkin/duotone-reader">rumkin/duotone-reader</a>
           </p>
         </div>
-        <div class="Page-Body">
-          <p class="Page-BodyIntro">
-            This is a concept and demonstration of the duotone screen reading technology.
-            It requires more research and isn't ready for production use yet.
-            Hope that early stage publication will help to improve it to becomw part of
-            the Web Stadrards.
+        <div class="PageBody">
+          <p class="PageBody-Intro">
+            This is a concept and demonstration of the duotone screen reading technology. It uses <a href="https://wicg.github.io/speech-api/">SpeechSynthesis</a> API to generate human speech.
+            It is on a research stage and the goal is to finalize the solution and enhance API design.
+            Hope that early stage publication will help to improve it to become part of the Web Standards.
           </p>
           <p>
             If you don't know screen readers read web documents element by element naming meaningful types and attributes before
@@ -233,8 +235,11 @@
               Screen reader would read it as <samp>Header Hello [pause] This is a textblock [pause] link This is a link end link [pause] checkbox, checked Ok</samp>.
               Separation between content and metadata is made by pause. And it could be improved if screan readers will separate metadata and a content and read it with different voices.
             </p>
+            <h2 class="PageBody-Header" id="example">
+              Example
+            </h2>
             <div class="Alert --warn">
-              <h3>
+              <h3 class="Alert-Header">
                 ⚠️ Note
               </h3>
               <p>
@@ -244,7 +249,7 @@
               </p>
             </div>
             <div class="if-speech-api">
-              <h2>Example settings</h2>
+              <h3 class="PageBody-Header">Settings</h3>
               <div>
                 <label>
                   Content voice:
@@ -261,9 +266,9 @@
 
             <div class="Examples">
               <div class="Example">
-                <h2>
+                <h3 class="PageBody-Header">
                   Regular reader
-                </h2>
+                </h3>
                 <p>
                   Example with single voice:
                 </p>
@@ -275,9 +280,9 @@ Checkbox, checked Ok</code></pre>
                 </button>
               </div>
               <div class="Example">
-                <h2>
+                <h3 class="PageBody-Header">
                   Duotone reader
-                </h2>
+                </h3>
                 <p>
                   Example with two voices:
                 </p>
