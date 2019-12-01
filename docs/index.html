@@ -298,6 +298,7 @@ This is a textblock. <span class="Example-hl" title="Selected text">Link</span> 
       </div>
     </div>
     <script>
+      window.speechSynthesis.cancel()
       let busy = false
       let voices
       let primary
@@ -334,7 +335,7 @@ This is a textblock. <span class="Example-hl" title="Selected text">Link</span> 
             return
           }
 
-          voices = speechSynthesis.getVoices().filter(({lang}) => lang === 'en-US')
+          voices = speechSynthesis.getVoices().filter(({name, lang}) => lang === 'en-US' || name.includes('English'))
 
           if (voices.length < 2) {
             return
